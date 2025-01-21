@@ -10,6 +10,7 @@ export function InitSwagger(app: INestApplication) {
         .setDescription("Decription document for Rest API")
         .setVersion(SR.VERSION)
         .setContact(SR.SIGNATURE, SR.SUPPORT.URL, SR.SUPPORT.EMAIL)
+        .addServer("http://localhost:" + config.PORT, "Default server")
         .addServer(config.HOST, 'Currennt Server')
         .addServer('https://' + config.PUBLIC_IP, 'Current server throw nginx')
         .addServer('https://' + config.DOMAIN, 'Server domain throw nginx')

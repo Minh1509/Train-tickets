@@ -20,8 +20,21 @@ process.env = {
 @Injectable()
 export class ConfigService {
 
-  // DB
-  DB_URI = env.DB_URI;
+  // DB Mongo
+  DB_URI: string = env.DB_URI;
+
+  // DB mysql
+  DB_HOST: string = env.DB_HOST;
+  DB_PORT: number = +env.DB_PORT;
+  DB_USERNAME: string = env.DB_USERNAME;
+  DB_PASSWORD: string = env.DB_PASSWORD;
+  DB_NAME: string = env.DB_NAME;
+  DB_TYPE: string = env.TYPE;
+
+  // JWT
+  JWT_SECRET = env.JWT_SECRET
+  AC_TOKEN_EXPIRED = env.AC_TOKEN_EXPIRED
+  REF_TOKEN_EXPIRED = env.REF_TOKEN_EXPIRED
 
 
   // SPECIAL
@@ -45,11 +58,11 @@ export class ConfigService {
 
   // CORS
   CORS: CorsOptions = {
-    origin: "*",
+    origin: true,
     methods: ['POST', 'PUT', 'GET', 'DELETE', 'PATCH', 'OPTIONS'],
     credentials: true,
     allowedHeaders: 'content-type, authorization'
-  }
+  };
 }
 
 export const config = new ConfigService();
