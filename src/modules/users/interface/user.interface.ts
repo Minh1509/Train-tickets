@@ -1,5 +1,3 @@
-import { Role } from "@base/authorization";
-
 export interface IUser {
     id: number,
     username: string,

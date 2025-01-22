@@ -21,7 +21,7 @@ export class User extends BaseEntity {
     @Column({ type: 'enum', enum: EnumGender, default: EnumGender.Other })
     gender: string
 
-    @Column()
+    @Column({ unique: true })
     username: string
 
     @Column()

@@ -1,7 +1,7 @@
+import { config } from "@config";
 import { User } from "@modules/users/entity/user.entity";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { config } from "src/config/config.service";
 
 @Module({
     imports: [
