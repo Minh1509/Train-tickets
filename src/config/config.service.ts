@@ -36,6 +36,8 @@ export class ConfigService {
   AC_TOKEN_EXPIRED = env.AC_TOKEN_EXPIRED
   REF_TOKEN_EXPIRED = env.REF_TOKEN_EXPIRED
 
+  // Cookies
+  COOKIE_EXPIRED = +env.COOKIE_EXPIRED
 
   // SPECIAL
   SR = {

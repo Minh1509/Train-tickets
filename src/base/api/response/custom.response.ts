@@ -31,7 +31,7 @@ export class CustomResponseInterceptor implements NestInterceptor {
             statusCode: statusCode, //this.getCustomStatusCode(statusCode),
             message: responseMessage || "",
             data: response.data || {},
-            metadata: response.metadata || {},
+            meta: response.metadata || {},
             timestamp: new Date().toISOString(),
         })))
 

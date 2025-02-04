@@ -1,7 +1,7 @@
+import { config } from "@config";
 import { User } from "@modules/users/entity/user.entity";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { config } from "src/config/config.service";
 
 @Module({
     imports: [
@@ -14,7 +14,6 @@ import { config } from "src/config/config.service";
             database: config.DB_NAME,
             entities: [User],
             autoLoadEntities: true,
-            synchronize: false
         })
     ]
 })

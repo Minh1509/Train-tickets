@@ -1,8 +1,6 @@
-import { Role } from "@base/authorization";
-
 export interface IUser {
     id: number,
     username: string,
     email: string,
-    role: string[]
+    roles: string[]
 }
