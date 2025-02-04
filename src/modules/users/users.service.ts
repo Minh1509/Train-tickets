@@ -17,24 +17,26 @@ export class UsersService {
 
     public async signup(dto: CreateUserDto, response: Response) {
         const { username, password } = dto;
-        console.log(username, password)
         const user = await this.userRepository.findOne({ where: { username: username } })
-        console.log(user)
-        if (user) throw new BadRequestException("User exit with username or email")
+        if (user) throw new BadRequestException("User exit with username")
+
         const hashPassword = await bcrypt.hash(password, 10);
         const newUser = this.userRepository.create({
             ...dto,
             password: hashPassword,
         });
-        console.log(newUser)
+
         if (newUser) {
             const payload: IUser = {
                 id: newUser.id,
                 username: newUser.username,
                 email: newUser.email,
-                role: [newUser.role]
+                roles: [newUser.role]
             }
             const { accessToken, refToken } = await this.authService.createTokenPair(payload);
+
+            // update refToken db
+            newUser.refToken = refToken;
 
             // set cookies
             const maxAge = 1000 * 60 * 60 * 24 * config.COOKIE_EXPIRED

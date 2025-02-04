@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@modules/users/entity/user.entity';
 import { Repository } from 'typeorm';
 import *  as bcrypt from 'bcrypt';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -17,8 +17,8 @@ export class AuthService {
     ) { }
     public createTokenPair = async (payload: IUser) => {
         try {
-            const accessToken = await this.jwtService.signAsync(payload, { expiresIn: '1000d' });
-            const refToken = await this.jwtService.signAsync(payload, { expiresIn: '1000d' });
+            const accessToken = await this.jwtService.signAsync(payload, { expiresIn: config.AC_TOKEN_EXPIRED });
+            const refToken = await this.jwtService.signAsync(payload, { expiresIn: config.REF_TOKEN_EXPIRED });
 
             return { accessToken, refToken };
         } catch (error) {
@@ -38,9 +38,13 @@ export class AuthService {
             id: user.id,
             username: user.username,
             email: user.email,
-            role: [user.role],
+            roles: [user.role],
         }
         const { accessToken, refToken } = await this.createTokenPair(payload);
+
+        // update refToken db with user
+        user.refToken = refToken;
+        await this.userRepository.save(user);
 
         // set cookies
         const maxAge = 1000 * 60 * 60 * 24 * config.COOKIE_EXPIRED;
@@ -55,6 +59,23 @@ export class AuthService {
                 accessToken: accessToken
             }
         }
+
+    }
+
+    public async logout(req: Request, res: Response) {
+        const { username } = req.user;
+        if (!username) throw new BadRequestException("Token null hoac het han");
+
+        const user = await this.userRepository.findOne({ where: { username: username } });
+        if (!user) throw new BadRequestException("User not found for logout");
+
+        // xoa refToken
+        await this.userRepository.update({ username }, { refToken: null });
+
+        // xoa Cookie
+        res.clearCookie('refToken', { httpOnly: true, secure: true, sameSite: 'strict' });
+
+        return true;
 
     }
 }
