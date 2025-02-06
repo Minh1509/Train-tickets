@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Xác nhận OTP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .otp-code {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e63946;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Yêu cầu đặt lại mật khẩu</h2>
+        <p>Chào {{name}},</p>
+        <p>Đây là mã OTP để xác nhận đặt lại mật khẩu của bạn:</p>
+        <p class="otp-code">{{otpRandom}}</p>
+        <p>Mã này sẽ hết hạn sau {{otpExpire}} phút.</p>
+        <p>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.</p>
+        <div class="footer">Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!</div>
+    </div>
+</body>
+</html>

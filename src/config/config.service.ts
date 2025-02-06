@@ -20,6 +20,8 @@ process.env = {
 @Injectable()
 export class ConfigService {
 
+  OTP_EXPIRE = env.OTP_EXPIRE
+
   // DB Mongo
   DB_URI: string = env.DB_URI;
 
@@ -72,7 +74,7 @@ export class ConfigService {
   MAIL_HOST: string = env.MAIL_HOST
   MAIL_PORT: number = +env.MAIL_PORT
   MAIL_USER: string = env.MAIL_USER
-  MAIL_PASS: string = env.MAIL_USER
+  MAIL_PASS: string = env.MAIL_PASS
 
   //SMS TWILIO
   TWILIO_ACCOUNT_SID: string = env.TWILIO_ACCOUNT_SID

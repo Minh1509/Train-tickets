@@ -4,6 +4,12 @@ import { EnumMethodForgotPassword } from "../enums";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class ForgotPasswordDto {
+
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    username: string
+
     @ApiProperty({ required: false })
     @IsOptional()
     @IsEmail()
