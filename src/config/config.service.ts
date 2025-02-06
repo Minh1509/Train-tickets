@@ -65,6 +65,22 @@ export class ConfigService {
     credentials: true,
     allowedHeaders: 'content-type, authorization'
   };
+
+  //Providers
+
+  // Nodemailer
+  MAIL_HOST: string = env.MAIL_HOST
+  MAIL_PORT: number = +env.MAIL_PORT
+  MAIL_USER: string = env.MAIL_USER
+  MAIL_PASS: string = env.MAIL_USER
+
+  //SMS TWILIO
+  TWILIO_ACCOUNT_SID: string = env.TWILIO_ACCOUNT_SID
+  TWILIO_AUTH_TOKEN: string = env.TWILIO_AUTH_TOKEN
+  TWILIO_FROM: string = env.TWILIO_FROM
+  TWILIO_TO: string = env.TWILIO_TO
+
+  // End providers
 }
 
 export const config = new ConfigService();

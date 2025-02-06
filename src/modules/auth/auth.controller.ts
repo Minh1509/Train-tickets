@@ -4,11 +4,13 @@ import { LoginAuthDto } from './dto/login-auth.dto';
 import { ResponseMessage } from '@base/api/decorators';
 import { Request, Response } from 'express';
 import { Public } from './jwt/jwt.decorator';
-import { ApiBearerAuth } from '@nestjs/swagger';
 import { Roles } from '@base/authorization/role/role.decorator';
 import { Role } from '@base/authorization';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { ForgotPasswordDto } from './dto';
 
-@Controller('')
+@ApiBearerAuth("Authorization")
+@Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
@@ -20,6 +22,14 @@ export class AuthController {
     return await this.authService.login(dto, response);
   }
 
+  @Post("forgot-password")
+  @Public()
+  @HttpCode(HttpStatus.CREATED)
+  @ResponseMessage("Send OTP success")
+  async forgotPassword(@Body() dto: ForgotPasswordDto) {
+    return await this.authService.forgotPassword(dto);
+  }
+
   @Roles(Role.ADMIN, Role.STAFF, Role.USER)
   @HttpCode(HttpStatus.OK)
   @Post("logout")
@@ -28,7 +38,7 @@ export class AuthController {
     return await this.authService.logout(req, res);
   }
 
-  @Roles(Role.STAFF, Role.USER)
+  @Roles(Role.STAFF)
   @Post("test")
   @HttpCode(HttpStatus.OK)
   @ResponseMessage("Test role, jwt")

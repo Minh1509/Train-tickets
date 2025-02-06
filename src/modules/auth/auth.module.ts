@@ -6,9 +6,11 @@ import { config } from '@config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '@modules/users/entity/user.entity';
 import { JwtAuthGuard, JwtStrategy } from './jwt';
+import { SmsModule } from '@providers/sms/sms.module';
 
 @Module({
   imports: [
+    SmsModule,
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
       global: true,
