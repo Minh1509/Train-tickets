@@ -13,12 +13,14 @@ import { SmsService } from '@providers/sms/sms.service';
 import { ForgotPasswordDto } from './dto';
 import { EnumMethodForgotPassword } from './enums';
 import { randomInt } from 'crypto'
+import { MailService } from '@providers/mail/mail.service';
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly jwtService: JwtService,
         private readonly smsService: SmsService,
+        private readonly mailService: MailService,
         @InjectRepository(User) private readonly userRepository: Repository<User>
     ) { }
     public createTokenPair = async (payload: IUser) => {
@@ -86,15 +88,17 @@ export class AuthService {
     }
 
     public async forgotPassword(dto: ForgotPasswordDto) {
-        const { toEmail, toPhone, method } = dto;
-        if (!toEmail && !toPhone) throw new BadRequestException("Email và phone không được cùng trống")
+        const { toEmail, toPhone, method, username } = dto;
+        const foundUser = await this.userRepository.findOne({ where: { username: username } });
+        if (!foundUser) throw new BadRequestException("Username not found");
+        if ((!toEmail && !toPhone) || (toEmail && toPhone)) throw new BadRequestException("Email và phone không được cùng trống hoặc cùng tồn tại")
 
         const otpRandom = randomInt(100000, 1000000);
         if (method === EnumMethodForgotPassword.SMS) {
             await this.smsService.sendOtp(toPhone, otpRandom);
         }
         else if (method === EnumMethodForgotPassword.EMAIL) {
-            console.log("Send email with OTP :: " + otpRandom);
+            await this.mailService.sendMail(foundUser, otpRandom, toEmail);
         }
         return true;
     }
