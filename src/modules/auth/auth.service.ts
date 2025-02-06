@@ -1,18 +1,24 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { config } from '@config';
-import { IUser } from '@modules/users/interface';
+import { IAccount, IUser } from '@modules/users/interface';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@modules/users/entity/user.entity';
 import { Repository } from 'typeorm';
 import *  as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
+import * as _ from 'lodash';
+import { SmsService } from '@providers/sms/sms.service';
+import { ForgotPasswordDto } from './dto';
+import { EnumMethodForgotPassword } from './enums';
+import { randomInt } from 'crypto'
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly jwtService: JwtService,
+        private readonly smsService: SmsService,
         @InjectRepository(User) private readonly userRepository: Repository<User>
     ) { }
     public createTokenPair = async (payload: IUser) => {
@@ -43,8 +49,7 @@ export class AuthService {
         const { accessToken, refToken } = await this.createTokenPair(payload);
 
         // update refToken db with user
-        user.refToken = refToken;
-        await this.userRepository.save(user);
+        await this.userRepository.update({ username }, { refToken: refToken })
 
         // set cookies
         const maxAge = 1000 * 60 * 60 * 24 * config.COOKIE_EXPIRED;
@@ -53,9 +58,10 @@ export class AuthService {
             maxAge: maxAge
         });
 
+        const userPublic: IAccount = _.pick(user, ['id', 'firstName', 'lastName', 'fullName', 'dateOfBirth', 'username', 'gender', 'email', 'phone', 'location'])
         return {
             data: {
-                user: user,
+                user: userPublic,
                 accessToken: accessToken
             }
         }
@@ -77,5 +83,19 @@ export class AuthService {
 
         return true;
 
+    }
+
+    public async forgotPassword(dto: ForgotPasswordDto) {
+        const { toEmail, toPhone, method } = dto;
+        if (!toEmail && !toPhone) throw new BadRequestException("Email và phone không được cùng trống")
+
+        const otpRandom = randomInt(100000, 1000000);
+        if (method === EnumMethodForgotPassword.SMS) {
+            await this.smsService.sendOtp(toPhone, otpRandom);
+        }
+        else if (method === EnumMethodForgotPassword.EMAIL) {
+            console.log("Send email with OTP :: " + otpRandom);
+        }
+        return true;
     }
 }

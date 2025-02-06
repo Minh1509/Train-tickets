@@ -6,9 +6,10 @@ import { User } from "./entity/user.entity";
 import { Repository } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { AuthService } from "@modules/auth/auth.service";
-import { IUser } from "./interface";
+import { IAccount, IUser } from "./interface";
 import { Response } from "express";
 import { config } from "@config";
+import * as _ from 'lodash'
 @Injectable()
 export class UsersService {
     constructor(
@@ -46,14 +47,26 @@ export class UsersService {
             })
 
             await this.userRepository.save(newUser);
+            const userPublic: IAccount = _.pick(newUser, ['id', 'firstName', 'lastName', 'fullName', 'dateOfBirth', 'username', 'gender', 'email', 'phone', 'location'])
             return {
                 data: {
-                    user: newUser,
+                    user: userPublic,
                     accessToken: accessToken
                 }
             }
         }
 
 
+    }
+
+    public async getMe(id: number) {
+        const user: User = await this.userRepository.findOne({ where: { id: id } });
+
+        if (!user) throw new BadRequestException("User with id not found");
+
+        const userPublic: IAccount = _.pick(user, ['id', 'firstName', 'lastName', 'fullName', 'dateOfBirth', 'username', 'gender', 'email', 'phone', 'location'])
+        return {
+            data: userPublic
+        }
     }
 }
