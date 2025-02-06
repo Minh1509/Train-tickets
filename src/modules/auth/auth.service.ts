@@ -94,12 +94,13 @@ export class AuthService {
         if ((!toEmail && !toPhone) || (toEmail && toPhone)) throw new BadRequestException("Email và phone không được cùng trống hoặc cùng tồn tại")
 
         const otpRandom = randomInt(100000, 1000000);
-        if (method === EnumMethodForgotPassword.SMS) {
+        if (method === EnumMethodForgotPassword.SMS && toPhone) {
             await this.smsService.sendOtp(toPhone, otpRandom);
         }
-        else if (method === EnumMethodForgotPassword.EMAIL) {
+        else if (method === EnumMethodForgotPassword.EMAIL && toEmail) {
             await this.mailService.sendMail(foundUser, otpRandom, toEmail);
         }
+        else throw new BadRequestException("Có lỗi xảy ra")
         return true;
     }
 }
