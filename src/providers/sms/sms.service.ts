@@ -6,7 +6,7 @@ import * as twilio from 'twilio'
 export class SmsService {
     private client: twilio.Twilio = twilio(config.TWILIO_ACCOUNT_SID, config.TWILIO_AUTH_TOKEN);
 
-    async sendOtp(toPhone: string, otp: number) {
+    async sendOtpForgotPassword(toPhone: string, otp: number) {
         const sendMessage = await this.client.messages.create({
             body: `Mã xác nhận của bạn sẽ có hiệu lực trong 2 phút: ${otp}`,
             from: config.TWILIO_FROM,

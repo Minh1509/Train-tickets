@@ -3,11 +3,11 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./entity/user.entity";
-import { Repository } from "typeorm";
+import { Not, Repository } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { AuthService } from "@modules/auth/auth.service";
-import { IAccount, IUser } from "./interface";
-import { Response } from "express";
+import { IAccount, IDeletedBy, IUpdateBy, IUser } from "./interface";
+import { Request, Response } from "express";
 import { config } from "@config";
 import * as _ from 'lodash'
 @Injectable()
@@ -29,7 +29,7 @@ export class UsersService {
 
         if (newUser) {
             const payload: IUser = {
-                id: newUser.id,
+                userId: newUser.id,
                 username: newUser.username,
                 email: newUser.email,
                 roles: [newUser.role]
@@ -69,4 +69,58 @@ export class UsersService {
             data: userPublic
         }
     }
+
+    /**
+     * 
+     * @returns pagination
+     */
+    public async getListUser() {
+        const users = await this.userRepository.find();
+        return { data: users };
+    }
+
+    public async updateUser(dto: UpdateUserDto, id: number, req: Request) {
+        const { userId, username } = req.user;
+        const foundUser = await this.userRepository.findOne({
+            where: {
+                id: +id,
+                isDeleted: false
+            }
+        })
+
+        const updatedBy: IUpdateBy = {
+            userId: userId,
+            username: username
+        }
+        Object.assign(foundUser, dto)
+        foundUser.updatedBy = updatedBy;
+        return {
+            data: await this.userRepository.save(foundUser)
+        }
+
+
+    }
+
+    public async deleteUser(id: number, req: Request) {
+        console.log(req.user)
+        const { userId, username } = req.user;
+        const foundUser = await this.userRepository.findOne({
+            where: {
+                id: +id,
+                isDeleted: false
+            }
+        })
+        if (!foundUser) throw new BadRequestException("Username not found")
+        const deletedBy: IDeletedBy = { userId, username };
+        await this.userRepository.update(id, {
+            deletedBy: deletedBy,
+            isDeleted: true
+        })
+
+        return {
+            data: await this.userRepository.softRemove(foundUser)
+        }
+
+    }
+
 }

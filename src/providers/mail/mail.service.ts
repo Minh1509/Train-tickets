@@ -7,7 +7,7 @@ import { Injectable } from "@nestjs/common";
 export class MailService {
     constructor(private readonly mailerService: MailerService) { }
 
-    async sendMail(user: User, otpRandom: number, toEmail: string) {
+    async sendMailForgotPassword(user: User, otpRandom: number, toEmail: string) {
         await this.mailerService.sendMail({
             to: toEmail,
             subject: "Email xác nhận lấy lại mật khẩu",

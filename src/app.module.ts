@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@/config';
-import { InitMysql } from '@base/database';
+import { InitMysql, InitRedis } from '@base/database';
 import { AuthModule } from '@modules/auth/auth.module';
 import { UsersModule } from '@modules/users/users.module';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
@@ -10,6 +10,8 @@ import { JwtAuthGuard } from '@modules/auth/jwt/jwt-auth.guard';
 import { RolesGuard } from '@base/authorization/role/role.guard';
 import { SmsModule } from '@providers/sms/sms.module';
 import { MailModule } from '@providers/mail/mail.module';
+import { OtpService } from '@base/otp/otp.service';
+import { OtpModule } from '@base/otp/otp.module';
 
 @Module({
   imports: [
@@ -19,6 +21,10 @@ import { MailModule } from '@providers/mail/mail.module';
     // DB
     // InitMongodb,
     InitMysql,
+    InitRedis,
+
+    // Base module
+    OtpModule,
 
     // Module
     AuthModule,

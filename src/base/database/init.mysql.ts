@@ -14,6 +14,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
             database: config.DB_NAME,
             entities: [User],
             autoLoadEntities: true,
+            synchronize: true
         })
     ]
 })

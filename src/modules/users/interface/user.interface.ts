@@ -1,5 +1,5 @@
 export interface IUser {
-    id: number,
+    userId: number,
     username: string,
     email: string,
     roles: string[]
@@ -18,3 +18,10 @@ export interface IAccount {
     location: string,
 
 }
+
+export interface IUpdateBy {
+    userId: number,
+    username: string
+}
+export interface IDeletedBy extends IUpdateBy { }
+export interface ICreatedBy extends IUpdateBy { }

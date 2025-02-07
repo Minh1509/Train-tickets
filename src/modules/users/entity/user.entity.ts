@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { Column, Entity } from "typeorm";
-import { BaseEntity } from "@base/entity";
+import { BaseUserEntity } from "@base/entity";
 import { Role } from "@base/authorization";
 import { EnumGender } from "../enums/user.enum";
 
 @Entity({ name: 'users' })
-export class User extends BaseEntity {
+export class User extends BaseUserEntity {
     @Column()
     firstName: string
 

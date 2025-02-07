@@ -20,7 +20,7 @@ process.env = {
 @Injectable()
 export class ConfigService {
 
-  OTP_EXPIRE = env.OTP_EXPIRE
+  OTP_EXPIRE: number = +env.OTP_EXPIRE
 
   // DB Mongo
   DB_URI: string = env.DB_URI;
@@ -32,6 +32,10 @@ export class ConfigService {
   DB_PASSWORD: string = env.DB_PASSWORD;
   DB_NAME: string = env.DB_NAME;
   DB_TYPE: string = env.TYPE;
+
+  // Redis
+  REDIS_HOST: string = env.REDIS_HOST;
+  REDIS_PORT: number = +env.REDIS_PORT;
 
   // JWT
   JWT_SECRET = env.JWT_SECRET
