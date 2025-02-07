@@ -23,11 +23,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(req: Request, payload: IUser) {
-        const { id, username, roles } = payload;
-        if (!id || !roles || !username) {
+        const { userId, username, roles } = payload;
+        if (!userId || !roles || !username) {
             throw new UnauthorizedException('UserId or role is missing in the token');
         }
-
         const foundUser = await this.userRepository.findOne({ where: { username: username } });
         if (!foundUser) {
             throw new UnauthorizedException('User not found');

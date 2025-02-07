@@ -1,13 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, Res, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, Res, Req, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginAuthDto } from './dto/login-auth.dto';
 import { ResponseMessage } from '@base/api/decorators';
 import { Request, Response } from 'express';
 import { Public } from './jwt/jwt.decorator';
 import { Roles } from '@base/authorization/role/role.decorator';
 import { Role } from '@base/authorization';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { ForgotPasswordDto } from './dto';
+import { ForgotPasswordDto, LoginAuthDto, ResetPasswordDto, UsernameDto, VerifyOtpDto } from './dto';
 
 @ApiBearerAuth("Authorization")
 @Controller('auth')
@@ -22,12 +21,28 @@ export class AuthController {
     return await this.authService.login(dto, response);
   }
 
-  @Post("forgot-password")
+  @Get("forgot-password")
   @Public()
   @HttpCode(HttpStatus.CREATED)
   @ResponseMessage("Send OTP success")
-  async forgotPassword(@Body() dto: ForgotPasswordDto) {
+  async forgotPassword(@Query() dto: ForgotPasswordDto) {
     return await this.authService.forgotPassword(dto);
+  }
+
+  @Get("verify-otp")
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @ResponseMessage("Verify OTP success")
+  async verifyOtp(@Query() dto: VerifyOtpDto) {
+    return await this.authService.verifyOtpForgotPassword(dto);
+  }
+
+  @Post("reset-password")
+  @Public()
+  @HttpCode(HttpStatus.CREATED)
+  @ResponseMessage("Reset password success")
+  async resetPassword(@Query() query: UsernameDto, @Body() body: ResetPasswordDto) {
+    return await this.authService.resetPassword(query, body);
   }
 
   @Roles(Role.ADMIN, Role.STAFF, Role.USER)
@@ -47,5 +62,4 @@ export class AuthController {
       data: req.user
     }
   }
-
 }
