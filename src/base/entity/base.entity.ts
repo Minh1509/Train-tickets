@@ -2,8 +2,7 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 type AuditUser = {
-    id?: number;
-    fullName?: string
+    userId?: number;
     username?: string
 }
 
@@ -12,7 +11,7 @@ export class BaseId {
     id: number
 }
 
-export class BaseCreateBy {
+export class BaseCreatedBy extends BaseId {
     @Column({ type: 'json', nullable: true })
     createdBy: AuditUser
 }
@@ -35,10 +34,7 @@ export class BaseUserEntity extends BaseId {
     @Column({ type: 'boolean', default: false })
     isDeleted: boolean
 }
-export class BaseEntity extends BaseId {
-
-    @Column({ type: 'json', nullable: true })
-    createdBy: AuditUser;
+export class BaseEntity extends BaseCreatedBy {
 
     @Column({ type: 'json', nullable: true })
     updatedBy: AuditUser;

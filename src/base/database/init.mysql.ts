@@ -1,4 +1,5 @@
 import { config } from "@config";
+import { Station } from "@modules/railways/entity/station.entity";
 import { User } from "@modules/users/entity/user.entity";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -12,9 +13,9 @@ import { TypeOrmModule } from "@nestjs/typeorm";
             username: config.DB_USERNAME,
             password: config.DB_PASSWORD,
             database: config.DB_NAME,
-            entities: [User],
+            entities: [User, Station],
             autoLoadEntities: true,
-            synchronize: true
+            synchronize: false
         })
     ]
 })
