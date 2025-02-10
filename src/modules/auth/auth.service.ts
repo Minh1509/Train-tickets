@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { config } from '@config';
-import { IAccount, IUpdateBy, IUser } from '@modules/users/interface';
+import { IAccount, IUser } from '@modules/users/interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@modules/users/entity/user.entity';
 import { Repository } from 'typeorm';
@@ -13,6 +13,7 @@ import { ForgotPasswordDto, LoginAuthDto, ResetPasswordDto, UsernameDto, VerifyO
 import { EnumMethodForgotPassword } from './enums';
 import { MailService } from '@providers/mail/mail.service';
 import { OtpService } from '@base/otp/otp.service';
+import { IUpdatedBy } from '@base/api/interface';
 
 @Injectable()
 export class AuthService {
@@ -165,9 +166,8 @@ export class AuthService {
         if (newPassword !== repeatPassword) throw new BadRequestException("Mật khâu mới và mật khẩu lặp lại không khớp");
 
         const hashPass = await bcrypt.hash(newPassword, 10);
-        const updateBy: IUpdateBy = {
+        const updateBy: IUpdatedBy = {
             userId: foundUser.id,
-            username: foundUser.username
         }
 
         foundUser.password = hashPass;

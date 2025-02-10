@@ -18,10 +18,3 @@ export interface IAccount {
     location: string,
 
 }
-
-export interface IUpdateBy {
-    userId: number,
-    username: string
-}
-export interface IDeletedBy extends IUpdateBy { }
-export interface ICreatedBy extends IUpdateBy { }

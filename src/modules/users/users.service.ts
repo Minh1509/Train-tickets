@@ -6,10 +6,11 @@ import { User } from "./entity/user.entity";
 import { Not, Repository } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { AuthService } from "@modules/auth/auth.service";
-import { IAccount, IDeletedBy, IUpdateBy, IUser } from "./interface";
+import { IAccount, IUser } from "./interface";
 import { Request, Response } from "express";
 import { config } from "@config";
 import * as _ from 'lodash'
+import { IDeletedBy, IUpdatedBy } from "@base/api/interface";
 @Injectable()
 export class UsersService {
     constructor(
@@ -88,9 +89,8 @@ export class UsersService {
             }
         })
 
-        const updatedBy: IUpdateBy = {
+        const updatedBy: IUpdatedBy = {
             userId: userId,
-            username: username
         }
         Object.assign(foundUser, dto)
         foundUser.updatedBy = updatedBy;
@@ -111,7 +111,7 @@ export class UsersService {
             }
         })
         if (!foundUser) throw new BadRequestException("Username not found")
-        const deletedBy: IDeletedBy = { userId, username };
+        const deletedBy: IDeletedBy = { userId };
         await this.userRepository.update(id, {
             deletedBy: deletedBy,
             isDeleted: true
