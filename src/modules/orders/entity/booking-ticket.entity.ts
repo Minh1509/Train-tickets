@@ -1,4 +1,3 @@
-// src/booking-ticket/booking-ticket.entity.ts
 import { Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Booking } from './booking.entity';
 import { Ticket } from './ticket.entity';

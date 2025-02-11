@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { Train } from "./train.entity";
-import { StatusCarriage, TypeCarriage } from "../enums/carriage.enum";
 import { BaseEntity } from "@base/entity";
 import { Seat } from "@modules/schedules/entity/seat.entity";
+import { StatusCarriage, TypeCarriage } from "../enums";
 
 @Entity("carriages")
 export class Carriage extends BaseEntity {
@@ -12,6 +12,9 @@ export class Carriage extends BaseEntity {
 
     @Column({ type: 'enum', enum: TypeCarriage, default: TypeCarriage.NORMAL })
     carriage_type: string
+
+    @Column()
+    carriage_number: number
 
     @Column()
     capacity: number

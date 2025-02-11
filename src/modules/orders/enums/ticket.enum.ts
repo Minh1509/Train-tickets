@@ -6,7 +6,6 @@ export enum TicketType {
 }
 
 export enum TicketStatus {
-    PENDING = 'pending',
-    CONFIRMED = 'confirmed',
-    CANCELED = 'canceled'
+    AVAILABLE = 'available',
+    BOOKED = 'booked'
 }
