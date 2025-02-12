@@ -2,8 +2,9 @@ import { BaseEntity } from "@base/entity";
 import { Station } from "@modules/railways/entity/station.entity";
 import { Train } from "@modules/railways/entity/train.entity";
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { ScheduleStatus } from "../enums/schedule.enum";
 
-@Entity('schedules')
+@Entity({ name: 'schedules' })
 export class Schedule extends BaseEntity {
     @ManyToOne(() => Train, (train) => train.schedules, { nullable: false })
     @JoinColumn({ name: 'trainId' })
@@ -22,5 +23,8 @@ export class Schedule extends BaseEntity {
 
     @Column({ type: 'timestamp' })
     arrival_time: Date
+
+    @Column({ type: 'enum', enum: ScheduleStatus, default: ScheduleStatus.ACTIVE })
+    status: ScheduleStatus
 
 }

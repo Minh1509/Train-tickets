@@ -5,11 +5,14 @@ import { Repository } from "typeorm";
 import { CreateStationDto, UpdateStationDto } from "../dto/admin-station.dto";
 import { normalizeStringForComparison, normalizeStringForDatabase } from "@base/api/helpers";
 import { ICreatedBy, IDeletedBy, IUpdatedBy } from "@base/api/interface";
+import { Schedule } from "../entity/schedule.entity";
 
 
 @Injectable()
-export class StationService {
-    constructor(@InjectRepository(Station) private readonly stationRepository: Repository<Station>) { }
+export class AdminStationService {
+    constructor(
+        @InjectRepository(Station) private readonly stationRepository: Repository<Station>,
+        @InjectRepository(Schedule) private readonly scheduleRepository: Repository<Schedule>) { }
 
     /**
      * 
@@ -93,6 +96,13 @@ export class StationService {
     }
 
 
+    /**
+     * 
+     * @param stationId 
+     * @param userId 
+     * kiểm tra ga này đã có tàu chạy ( có lịch trình hay chưa) => nếu có thì ko thể xóa
+     * @returns 
+     */
     public async deleteStation(stationId: number, userId: number) {
         const foundStation = await this.stationRepository
             .createQueryBuilder("stations")
@@ -100,6 +110,14 @@ export class StationService {
             .andWhere("stations.status = 'active'")
             .getOne()
         if (!foundStation) throw new BadRequestException("Station not found")
+
+        const schedule = await this.scheduleRepository
+            .createQueryBuilder('schedule')
+            .where("schedule. departure_station_id = :stationId", { stationId })
+            .orWhere("schedule.arrival_station_id = :stationId", { stationId })
+            .andWhere("schedule.")
+            .getOne()
+        if (schedule) throw new BadRequestException("Không thể xóa ga vì có lịch trình liên kết")
 
         const deletedBy: IDeletedBy = { userId }
         foundStation.deletedBy = deletedBy

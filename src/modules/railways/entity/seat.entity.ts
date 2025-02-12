@@ -3,7 +3,7 @@ import { Carriage } from "@modules/railways/entity/carriage.entity";
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { TypeSeat } from "../enums/seat.enum";
 
-@Entity('seats')
+@Entity({ name: 'seats' })
 export class Seat extends BaseEntity {
     @ManyToOne(() => Carriage, (carriage) => carriage.seats)
     @JoinColumn({ name: "carriageId" })

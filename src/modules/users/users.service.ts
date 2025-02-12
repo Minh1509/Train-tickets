@@ -26,9 +26,13 @@ export class UsersService {
         const newUser = this.userRepository.create({
             ...dto,
             password: hashPassword,
+            role: dto.role ? dto.role : 'USER'
         });
 
         if (newUser) {
+            // save truoc moi co id
+            await this.userRepository.save(newUser);
+
             const payload: IUser = {
                 userId: newUser.id,
                 username: newUser.username,

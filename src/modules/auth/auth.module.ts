@@ -12,7 +12,6 @@ import { OtpService } from '@base/otp/otp.service';
 
 @Module({
   imports: [
-
     MailModule,
     SmsModule,
     TypeOrmModule.forFeature([User]),

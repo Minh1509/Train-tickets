@@ -2,9 +2,9 @@ import { BaseEntity } from "@base/entity";
 import { User } from "@modules/users/entity/user.entity";
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from "typeorm";
 import { BookingStatus } from "../enums/booking.enum";
-import { Ticket } from "./ticket.entity";
+import { Ticket } from "@modules/railways/entity/ticket.entity";
 
-@Entity('bookings')
+@Entity({ name: 'bookings' })
 export class Booking extends BaseEntity {
     @ManyToOne(() => User, (user) => user.id)
     @JoinColumn({ name: 'userId' })

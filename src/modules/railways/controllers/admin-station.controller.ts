@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, Req, Res } from "@nestjs/common";
-import { StationService } from "../services/station.service";
+import { AdminStationService } from "../services/admin-station.service";
 import { AddParamToBody, AddUserToBody, ResponseMessage } from "@base/api/decorators";
 import { CreateStationDto, UpdateStationDto } from "../dto/admin-station.dto";
 import { Request } from "express";
 
 @Controller("stations")
-export class StationController {
-    constructor(private readonly stationService: StationService) { }
+export class AdminStationController {
+    constructor(private readonly stationService: AdminStationService) { }
 
     @Post("")
     @ResponseMessage("Create station success")

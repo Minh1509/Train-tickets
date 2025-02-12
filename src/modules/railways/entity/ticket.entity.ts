@@ -1,10 +1,11 @@
 import { BaseEntity } from "@base/entity";
-import { Schedule } from "@modules/schedules/entity/schedule.entity";
-import { Seat } from "@modules/schedules/entity/seat.entity";
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { Schedule } from "./schedule.entity";
+import { Seat } from "./seat.entity";
 import { TicketStatus, TicketType } from "../enums/ticket.enum";
 
-@Entity('tickets')
+
+@Entity({ name: 'tickets' })
 export class Ticket extends BaseEntity {
     @ManyToOne(() => Schedule, (schedule) => schedule.id)
     @JoinColumn({ name: 'scheduleId' })

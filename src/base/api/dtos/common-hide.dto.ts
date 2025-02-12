@@ -1,7 +1,7 @@
 import { IsEmailValidator } from "@modules/users/validators/validator";
 import { ApiHideProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsNotEmpty, IsNumber, IsString, Validate } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString, Validate } from "class-validator";
 
 
 export class IdDto {
@@ -48,4 +48,11 @@ export class UserStationDto extends UserIdDto {
     @IsNumber()
     @Type(() => Number)
     stationId: number
+}
+
+export class RoleDto {
+    @ApiHideProperty()
+    @IsString()
+    @IsOptional()
+    role?: string;
 }

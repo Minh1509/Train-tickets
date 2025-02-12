@@ -2,10 +2,10 @@ import { BaseEntity } from "@base/entity";
 import { Column, Entity, OneToMany } from "typeorm";
 import { StatusEntity } from "@base/api/enums/status.enum";
 import { Carriage } from "./carriage.entity";
-import { Schedule } from "@modules/schedules/entity/schedule.entity";
 import { TypeTrain } from "../enums";
+import { Schedule } from "./schedule.entity";
 
-@Entity('trains')
+@Entity({ name: 'trains' })
 export class Train extends BaseEntity {
     @Column()
     name: string

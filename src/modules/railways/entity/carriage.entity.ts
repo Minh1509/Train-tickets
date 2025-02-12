@@ -1,12 +1,12 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { Train } from "./train.entity";
 import { BaseEntity } from "@base/entity";
-import { Seat } from "@modules/schedules/entity/seat.entity";
 import { StatusCarriage, TypeCarriage } from "../enums";
+import { Seat } from "./seat.entity";
 
-@Entity("carriages")
+@Entity({ name: 'carriages' })
 export class Carriage extends BaseEntity {
-    @ManyToOne(() => Train, (train) => train.carriages)
+    @ManyToOne(() => Train, (train) => train.carriages, { nullable: false })
     @JoinColumn({ name: 'trainId' })
     train: Train
 
