@@ -1,24 +1,27 @@
 import { BaseEntity } from "@base/entity";
 import { Column, Entity, OneToMany } from "typeorm";
-import { TypeTrain } from "../enums/train.enum";
 import { StatusEntity } from "@base/api/enums/status.enum";
 import { Carriage } from "./carriage.entity";
-import { Schedule } from "@modules/schedules/entity/schedule.entity";
+import { TypeTrain } from "../enums";
+import { Schedule } from "./schedule.entity";
 
-@Entity('trains')
+@Entity({ name: "trains" })
 export class Train extends BaseEntity {
-    @Column({ nullable: false, unique: true })
-    name: string
+  @Column()
+  name: string;
 
-    @Column({ type: 'enum', enum: TypeTrain, default: TypeTrain.NORMAL })
-    train_type: string
+  @Column({ unique: true, nullable: false })
+  code: string;
 
-    @Column({ type: 'enum', enum: StatusEntity, default: StatusEntity.ACTIVE })
-    status: string
+  @Column({ type: "enum", enum: TypeTrain, default: TypeTrain.NORMAL })
+  train_type: string;
 
-    @OneToMany(() => Carriage, (carriage) => carriage.train)
-    carriages: Carriage[]
+  @Column({ type: "enum", enum: StatusEntity, default: StatusEntity.ACTIVE })
+  status: string;
 
-    @OneToMany(() => Schedule, (schedule) => schedule.train)
-    schedules: Schedule[]
+  @OneToMany(() => Carriage, (carriage) => carriage.train)
+  carriages: Carriage[];
+
+  @OneToMany(() => Schedule, (schedule) => schedule.train)
+  schedules: Schedule[];
 }

@@ -12,8 +12,9 @@ import { SmsService } from '@providers/sms/sms.service';
 import { ForgotPasswordDto, LoginAuthDto, ResetPasswordDto, UsernameDto, VerifyOtpDto } from './dto';
 import { EnumMethodForgotPassword } from './enums';
 import { MailService } from '@providers/mail/mail.service';
-import { OtpService } from '@base/otp/otp.service';
+// import { OtpService } from '@base/otp/otp.service';
 import { IUpdatedBy } from '@base/api/interface';
+import { randomInt } from 'crypto';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +22,7 @@ export class AuthService {
         private readonly jwtService: JwtService,
         private readonly smsService: SmsService,
         private readonly mailService: MailService,
-        private readonly otpService: OtpService,
+        // private readonly otpService: OtpService,
         @InjectRepository(User) private readonly userRepository: Repository<User>
     ) { }
     public createTokenPair = async (payload: IUser) => {
@@ -110,8 +111,8 @@ export class AuthService {
         });
         if (!foundUser) throw new BadRequestException("Username not found");
 
-        const otpRandom = await this.otpService.generateAndSaveOtpRedis(username);
-
+        // const otpRandom = await this.otpService.generateAndSaveOtpRedis(username);
+        const otpRandom = randomInt(100000, 1000000);
         if (method === EnumMethodForgotPassword.SMS) {
             const toPhone = foundUser.phone
             await this.smsService.sendOtpForgotPassword(toPhone, otpRandom);
@@ -133,20 +134,20 @@ export class AuthService {
      * @verify otp
      * @delete otp if eccept
      */
-    public async verifyOtpForgotPassword(dto: VerifyOtpDto) {
-        const { username, otp } = dto;
-        const foundUser = await this.userRepository.findOne({
-            where: {
-                username: username,
-                isDeleted: false
-            }
-        });
-        if (!foundUser) throw new BadRequestException("Username not found")
+    // public async verifyOtpForgotPassword(dto: VerifyOtpDto) {
+    //     const { username, otp } = dto;
+    //     const foundUser = await this.userRepository.findOne({
+    //         where: {
+    //             username: username,
+    //             isDeleted: false
+    //         }
+    //     });
+    //     if (!foundUser) throw new BadRequestException("Username not found")
 
-        const checkOtp = await this.otpService.checkOtp(otp, username);
-        if (!checkOtp) throw new BadRequestException("Otp not valid");
-        return true;
-    }
+    //     const checkOtp = await this.otpService.checkOtp(otp, username);
+    //     if (!checkOtp) throw new BadRequestException("Otp not valid");
+    //     return true;
+    // }
 
 
     public async resetPassword(query: UsernameDto, body: ResetPasswordDto) {

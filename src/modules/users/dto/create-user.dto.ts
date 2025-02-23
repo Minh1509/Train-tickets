@@ -1,10 +1,11 @@
 import { Type } from "class-transformer";
-import { IsDate, IsEmail, IsEnum, IsNotEmpty, IsPhoneNumber, IsString, MaxLength, Validate } from "class-validator";
+import { IsDate, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, MaxLength, Validate } from "class-validator";
 import { EnumGender } from "../enums/user.enum";
 import { IsEmailValidator, IsPhoneNumberValidator } from "../validators/validator";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
+import { RoleDto } from "@base/api/dtos/common-hide.dto";
 
-export class CreateUserDto {
+export class CreateUserDto extends RoleDto {
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
@@ -60,4 +61,5 @@ export class CreateUserDto {
     @IsString()
     @IsNotEmpty()
     location: string;
+
 }

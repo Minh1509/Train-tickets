@@ -20,6 +20,8 @@ process.env = {
 @Injectable()
 export class ConfigService {
 
+  NODE_ENV = env.NODE_ENV ?? "dev";
+
   OTP_EXPIRE: number = +env.OTP_EXPIRE
 
   // DB Mongo

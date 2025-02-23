@@ -10,9 +10,8 @@ import { JwtAuthGuard } from '@modules/auth/jwt/jwt-auth.guard';
 import { RolesGuard } from '@base/authorization/role/role.guard';
 import { SmsModule } from '@providers/sms/sms.module';
 import { MailModule } from '@providers/mail/mail.module';
-import { OtpService } from '@base/otp/otp.service';
-import { OtpModule } from '@base/otp/otp.module';
 import { RailwayModule } from '@modules/railways/railway.module';
+import { ClsModule } from 'nestjs-cls';
 
 @Module({
   imports: [
@@ -22,10 +21,10 @@ import { RailwayModule } from '@modules/railways/railway.module';
     // DB
     // InitMongodb,
     InitMysql,
-    InitRedis,
+    // InitRedis,
 
     // Base module
-    OtpModule,
+    // OtpModule,
 
     // Module
     AuthModule,
@@ -34,7 +33,14 @@ import { RailwayModule } from '@modules/railways/railway.module';
 
     // Provides
     MailModule,
-    SmsModule
+    SmsModule,
+
+    //Shared
+    ClsModule.forRoot({
+      global: true,
+      middleware: { mount: true },
+      guard: { mount: true }
+    })
   ],
   controllers: [],
   providers: [

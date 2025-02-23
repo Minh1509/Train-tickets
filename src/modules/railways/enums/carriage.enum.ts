@@ -1,9 +1,9 @@
 export enum TypeCarriage {
-    VIP = 'vip',
-    NORMAL = 'normal'
+  VIP = "vip",
+  NORMAL = "normal"
 }
 
 export enum StatusCarriage {
-    ACTIVE = 'active',
-    INACTIVE = 'inactive'
+  ACTIVE = "active",
+  INACTIVE = "inactive"
 }

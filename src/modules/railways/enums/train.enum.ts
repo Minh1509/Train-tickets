@@ -1,5 +1,5 @@
 export enum TypeTrain {
-    FAST = 'fast',
-    SLOW = 'slow',
-    NORMAL = 'normal'
+  FAST = "fast",
+  SLOW = "slow",
+  NORMAL = "normal"
 }
