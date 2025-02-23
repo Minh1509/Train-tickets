@@ -4,27 +4,30 @@ import { Train } from "@modules/railways/entity/train.entity";
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { ScheduleStatus } from "../enums/schedule.enum";
 
-@Entity({ name: 'schedules' })
+@Entity({ name: "schedules" })
 export class Schedule extends BaseEntity {
-    @ManyToOne(() => Train, (train) => train.schedules, { nullable: false })
-    @JoinColumn({ name: 'trainId' })
-    train: Train
+  @ManyToOne(() => Train, (train) => train.schedules, { nullable: false })
+  @JoinColumn({ name: "trainId" })
+  train: Train;
 
-    @ManyToOne(() => Station, { nullable: false })
-    @JoinColumn({ name: 'departure_station_id' })
-    departure_station_id: Station
+  @ManyToOne(() => Station, { nullable: false })
+  @JoinColumn({ name: "departure_station_id" })
+  departure_station_id: Station;
 
-    @ManyToOne(() => Station, { nullable: false })
-    @JoinColumn({ name: 'arrival_station_id' })
-    arrival_station_id: Station
+  @ManyToOne(() => Station, { nullable: false })
+  @JoinColumn({ name: "arrival_station_id" })
+  arrival_station_id: Station;
 
-    @Column({ type: 'timestamp' })
-    departure_time: Date
+  @Column({ type: "timestamp" })
+  departure_time: Date;
 
-    @Column({ type: 'timestamp' })
-    arrival_time: Date
+  @Column({ type: "timestamp" })
+  arrival_time: Date;
 
-    @Column({ type: 'enum', enum: ScheduleStatus, default: ScheduleStatus.ACTIVE })
-    status: ScheduleStatus
-
+  @Column({
+    type: "enum",
+    enum: ScheduleStatus,
+    default: ScheduleStatus.ACTIVE
+  })
+  status: ScheduleStatus;
 }

@@ -23,6 +23,7 @@ import { Schedule } from "@modules/railways/entity/schedule.entity";
             autoLoadEntities: true,
             synchronize: false,
             // logging: true
+            // logging: ['query', 'error'],
         })
     ]
 })

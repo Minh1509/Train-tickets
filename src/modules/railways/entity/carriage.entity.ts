@@ -4,25 +4,28 @@ import { BaseEntity } from "@base/entity";
 import { StatusCarriage, TypeCarriage } from "../enums";
 import { Seat } from "./seat.entity";
 
-@Entity({ name: 'carriages' })
+@Entity({ name: "carriages" })
 export class Carriage extends BaseEntity {
-    @ManyToOne(() => Train, (train) => train.carriages, { nullable: false })
-    @JoinColumn({ name: 'trainId' })
-    train: Train
+  @ManyToOne(() => Train, (train) => train.carriages, { nullable: false })
+  @JoinColumn({ name: "trainId" })
+  train: Train;
 
-    @Column({ type: 'enum', enum: TypeCarriage, default: TypeCarriage.NORMAL })
-    carriage_type: string
+  @Column({ type: "enum", enum: TypeCarriage, default: TypeCarriage.NORMAL })
+  carriage_type: string;
 
-    @Column()
-    carriage_number: number
+  @Column()
+  carriage_number: number;
 
-    @Column()
-    capacity: number
+  @Column()
+  capacity: number;
 
-    @Column({ type: 'enum', enum: StatusCarriage, default: StatusCarriage.ACTIVE })
-    status: string
+  @Column({
+    type: "enum",
+    enum: StatusCarriage,
+    default: StatusCarriage.ACTIVE
+  })
+  status: string;
 
-    @OneToMany(() => Seat, (seat) => seat.carriage)
-    seats: Seat[]
-
+  @OneToMany(() => Seat, (seat) => seat.carriage)
+  seats: Seat[];
 }

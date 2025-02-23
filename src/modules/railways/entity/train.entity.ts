@@ -5,23 +5,23 @@ import { Carriage } from "./carriage.entity";
 import { TypeTrain } from "../enums";
 import { Schedule } from "./schedule.entity";
 
-@Entity({ name: 'trains' })
+@Entity({ name: "trains" })
 export class Train extends BaseEntity {
-    @Column()
-    name: string
+  @Column()
+  name: string;
 
-    @Column({ unique: true, nullable: false })
-    code: string
+  @Column({ unique: true, nullable: false })
+  code: string;
 
-    @Column({ type: 'enum', enum: TypeTrain, default: TypeTrain.NORMAL })
-    train_type: string
+  @Column({ type: "enum", enum: TypeTrain, default: TypeTrain.NORMAL })
+  train_type: string;
 
-    @Column({ type: 'enum', enum: StatusEntity, default: StatusEntity.ACTIVE })
-    status: string
+  @Column({ type: "enum", enum: StatusEntity, default: StatusEntity.ACTIVE })
+  status: string;
 
-    @OneToMany(() => Carriage, (carriage) => carriage.train)
-    carriages: Carriage[]
+  @OneToMany(() => Carriage, (carriage) => carriage.train)
+  carriages: Carriage[];
 
-    @OneToMany(() => Schedule, (schedule) => schedule.train)
-    schedules: Schedule[]
+  @OneToMany(() => Schedule, (schedule) => schedule.train)
+  schedules: Schedule[];
 }

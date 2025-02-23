@@ -29,13 +29,13 @@ export class AuthController {
     return await this.authService.forgotPassword(dto);
   }
 
-  @Get("verify-otp")
-  @Public()
-  @HttpCode(HttpStatus.OK)
-  @ResponseMessage("Verify OTP success")
-  async verifyOtp(@Query() dto: VerifyOtpDto) {
-    return await this.authService.verifyOtpForgotPassword(dto);
-  }
+  // @Get("verify-otp")
+  // @Public()
+  // @HttpCode(HttpStatus.OK)
+  // @ResponseMessage("Verify OTP success")
+  // async verifyOtp(@Query() dto: VerifyOtpDto) {
+  //   return await this.authService.verifyOtpForgotPassword(dto);
+  // }
 
   @Post("reset-password")
   @Public()

@@ -1,6 +1,6 @@
 import { Controller } from "@nestjs/common";
 
-@Controller('schedules')
+@Controller("admin/schedules")
 export class AdminScheduleController {
-    constructor() { }
+  constructor() {}
 }

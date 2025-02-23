@@ -8,7 +8,7 @@ import { User } from '@modules/users/entity/user.entity';
 import { JwtAuthGuard, JwtStrategy } from './jwt';
 import { SmsModule } from '@providers/sms/sms.module';
 import { MailModule } from '@providers/mail/mail.module';
-import { OtpService } from '@base/otp/otp.service';
+// import { OtpService } from '@base/otp/otp.service';
 
 @Module({
   imports: [
@@ -22,7 +22,12 @@ import { OtpService } from '@base/otp/otp.service';
 
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, OtpService],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    // OtpService,
+
+  ],
   exports: [AuthService]
 })
 export class AuthModule { }

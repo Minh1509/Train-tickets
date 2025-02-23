@@ -1,4 +1,4 @@
 export enum TypeSeat {
-    VIP = 'vip',
-    NORMAL = 'normal'
+  VIP = "vip",
+  NORMAL = "normal"
 }

@@ -1,11 +1,11 @@
-import { Module } from "@nestjs/common";
-import { OtpService } from "./otp.service";
-import { InitRedis } from "@base/database";
+// import { Module } from "@nestjs/common";
+// import { OtpService } from "./otp.service";
+// import { InitRedis } from "@base/database";
 
-@Module({
-    imports: [InitRedis],
-    providers: [OtpService],
-    exports: [OtpService]
-})
+// @Module({
+//     imports: [InitRedis],
+//     providers: [OtpService],
+//     exports: [OtpService]
+// })
 
-export class OtpModule { }
+// export class OtpModule { }

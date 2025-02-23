@@ -7,24 +7,25 @@ import { ICreatedBy } from "@base/api/interface";
 
 @Injectable()
 export class AdminTrainService {
-    constructor(@InjectRepository(Train) private readonly trainRepository: Repository<Train>) {
-    }
+  constructor(
+    @InjectRepository(Train) private readonly trainRepository: Repository<Train>
+  ) {}
 
-    async createTrain(dto: CreateTrainDto) {
-        const { code, userId } = dto;
-        const foundTrain = await this.trainRepository
-            .createQueryBuilder("trains")
-            .where("trains.code = :code", { code })
-            .andWhere("trains.status = 'active'")
-            .getOne()
-        if (foundTrain) throw new BadRequestException("Train not found")
-        const createdBy: ICreatedBy = { userId }
+  async createTrain(dto: CreateTrainDto) {
+    const { code, userId } = dto;
+    const foundTrain = await this.trainRepository
+      .createQueryBuilder("trains")
+      .where("trains.code = :code", { code })
+      .andWhere("trains.status = 'active'")
+      .getOne();
+    if (foundTrain) throw new BadRequestException("Train not found");
+    const createdBy: ICreatedBy = { userId };
 
-        return {
-            data: await this.trainRepository.save({
-                ...dto,
-                createdBy
-            })
-        }
-    }
+    return {
+      data: await this.trainRepository.save({
+        ...dto,
+        createdBy
+      })
+    };
+  }
 }
