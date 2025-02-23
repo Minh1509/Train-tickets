@@ -3,9 +3,11 @@ import { UserTrainService } from "../services/user-train.service";
 import { ResponseMessage } from "@base/api/decorators";
 import { SearchTrainDto } from "../dto/user-train.dto";
 import { Public } from "@modules/auth/jwt";
+import { ApiTags } from "@nestjs/swagger";
 
 @Public()
 @Controller("user/trains")
+@ApiTags("User/ Train/ Railway")
 export class UserTrainController {
   constructor(private readonly userTrainService: UserTrainService) {}
 

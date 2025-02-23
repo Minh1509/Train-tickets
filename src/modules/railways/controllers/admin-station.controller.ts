@@ -20,8 +20,10 @@ import {
 } from "@base/api/decorators";
 import { CreateStationDto, UpdateStationDto } from "../dto/admin-station.dto";
 import { Request } from "express";
+import { ApiTags } from "@nestjs/swagger";
 
 @Controller("admin/stations")
+@ApiTags("Admin/ Station/ Railway")
 export class AdminStationController {
   constructor(private readonly stationService: AdminStationService) {}
 

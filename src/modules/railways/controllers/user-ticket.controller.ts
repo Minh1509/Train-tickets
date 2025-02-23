@@ -3,9 +3,11 @@ import { UserTicketService } from "@modules/railways/services/user-ticket.servic
 import { ResponseMessage } from "@base/api/decorators";
 import { GetTicketDto } from "@modules/railways/dto";
 import { Public } from "@modules/auth/jwt";
+import { ApiTags } from "@nestjs/swagger";
 
 @Public()
 @Controller("user/tickets")
+@ApiTags("User/ Ticket/ Railway")
 export class UserTicketController {
   constructor(private userTicketService: UserTicketService) {}
 
